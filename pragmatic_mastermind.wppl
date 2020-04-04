@@ -1,0 +1,168 @@
+/* 
+Pragmatic Mastermind simulation in WebPPL by mpoemsl and rakrueger
+*/
+
+// game setup
+var numColors = _.toNumber(argv["numColors"])
+var numPins = _.toNumber(argv["numPins"])
+
+var speakerStrategy = argv["speakerStrategy"]
+var listenerStrategy = argv["listenerStrategy"]
+
+var trueState = map(function(c){ return _.toNumber(c) }, remove("s", argv["trueState"]))
+
+// states generator
+var genStates = function(numColors, numPins){
+  
+  var states = Infer({model: function(){
+    var genDist = repeat(numPins, function(){ uniformDraw(_.range(numColors)) })
+    return genDist
+  }}).support()
+
+  return states
+}
+
+// possible pin states
+var allStates = genStates(numColors, numPins)
+
+// possible utterances about number of correct pins
+var utterances = ["none", "some", "many"]
+
+// utterance prior
+var utterancePrior = function() {
+  return uniformDraw(utterances)
+}
+
+// utilities
+
+var getData = function(dist) {
+  var objs = dist.support()
+  var probs = map(function(obj){ Math.exp(dist.score(obj)) }, objs)
+  return [objs, probs]
+}
+
+var argMax = function(dist) {
+  var [objs, probs] = getData(dist)
+  return objs[_.indexOf(probs, _.max(probs))]
+}
+
+var argMin = function(dist) {
+  var [objs, probs] = getData(dist)
+  return objs[_.indexOf(probs, _.min(probs))]
+}
+var pinEquals = function(trueVal, predVal) {
+  return trueVal === predVal
+}
+
+var arrayEquals = function(a, b) {
+  var truths = map2(pinEquals, a, b)
+  return truths.length === sum(truths)
+}
+
+var unify = function(dist, possStates) {
+  var distProbs = map(function(obj){ Math.exp(dist.score(obj)) }, possStates)
+  return Categorical({ps: distProbs, vs: possStates})
+}
+
+var correctCount = function(state, prediction) {
+  return sum(map2(pinEquals, state, prediction))
+}
+
+// meaning function to interpret the utterances
+var literalMeanings = {
+  many: function(state, prediction) { return correctCount(state, prediction) > 2 },
+  some: function(state, prediction) { return correctCount(state, prediction) > 0 },
+  none: function(state, prediction) { return correctCount(state, prediction) === 0 }
+}
+
+
+// literal listener
+var literalListener = function(utt, prediction, possStates) {
+  return Infer({model: function(){
+    var state = uniformDraw(possStates)
+    var meaning = literalMeanings[utt]
+    condition(meaning(state, prediction))
+    return state
+  }})
+}
+
+
+// pragmatic speaker
+var pragmaticSpeaker = function(state, prediction, possStates) {
+  return Infer({model: function(){
+    var utt = utterancePrior()
+    factor(literalListener(utt, prediction, possStates).score(state))
+    return utt
+  }})
+}
+
+
+// pragmatic listener
+var pragmaticListener = function(utt, prediction, prior, possStates) {
+  return Infer({model: function(){
+    var state = sample(prior)
+    observe(pragmaticSpeaker(state, prediction, possStates), utt)
+    return state
+  }})
+}
+
+
+// selection strategies
+var selectionStrategies = {
+  greedyMin: function(dist) { return argMin(dist) },
+  greedyMax: function(dist) { return argMax(dist) },
+  stochastic: function(dist) { return sample(dist) }
+}
+
+
+// start game loop
+var startPlaying = function(state, speakerStrategy, listenerStrategy) {
+  
+  var speakfunc = selectionStrategies[speakerStrategy]
+  var listenfunc = selectionStrategies[listenerStrategy]
+
+  var firstListenBeliefs = Categorical({
+    ps: map(function(x){ return 1 / allStates.length }, allStates), 
+    vs: allStates
+  })
+  
+  var firstPossibleStates = allStates
+  
+  playUntilCorrect(state, speakfunc, listenfunc, firstListenBeliefs, firstPossibleStates)
+}
+
+
+// recursive game loop
+var playUntilCorrect = function(state, speakfunc, listenfunc, listenBeliefs, possStates) {
+
+  display("Listener has beliefs over " + listenBeliefs.support().length + " possible states")
+  
+  // listener makes prediction
+  var prediction = listenfunc(listenBeliefs)
+  display("Listener predicts " + prediction)
+  
+  if (arrayEquals(state, prediction)) {
+    
+    display("Correct! Game finished")
+    
+  } else {
+    
+    // remove now impossible state from listener prior
+    var newPossStates = remove(prediction, possStates)
+    var listenPrior = unify(listenBeliefs, newPossStates)
+
+    // get speaker utterance distribution and determine reply utterance
+    var utterance = speakfunc(pragmaticSpeaker(state, prediction, newPossStates))
+    display("Speaker says " + utterance)
+    
+    // get listener state beliefs
+    var listenPosterior = pragmaticListener(utterance, prediction, listenPrior, newPossStates)
+    var newListenBeliefs = listenPosterior
+    
+    playUntilCorrect(state, speakfunc, listenfunc, newListenBeliefs, newPossStates)
+  }
+}
+
+// start game    
+startPlaying(trueState, speakerStrategy, listenerStrategy)
+
