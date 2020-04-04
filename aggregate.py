@@ -22,10 +22,11 @@ def main():
     prefix = args.script_fp.split("/")[-1].split("_")[0]
 
     print("Aggregating strategy statistics for {} Mastermind simulation with numPins {} and numColors {} ...".format(prefix, args.num_pins, args.num_colors))
-    strategy_stats = run_all_strategies(args.script_fp, args.num_pins, args.num_colors, prefix)
+    res = run_all_strategies(args.script_fp, args.num_pins, args.num_colors, prefix)
 
-    print("Exporting results to stratgey_stats.csv ...")
-    strategy_stats.to_csv("{}_strategy_stats.csv".format(script_fp.split("/")[-1].split("_")[0]))
+    filename = "{}_strategy_stats.csv".format(prefix)
+    print("Exporting results to {} ...".format(filename))
+    res.to_csv(filename)
 
 
 def run_all_strategies(script_fp, num_pins, num_colors, prefix):
@@ -49,7 +50,7 @@ def run_all_strategies(script_fp, num_pins, num_colors, prefix):
             stats.to_csv("statistics/{}_{}_{}_{}_{}.csv".format(prefix, num_pins, num_colors, speaker_strategy, listener_strategy).lower())
             
             info = {"mean_rounds": stats["n_rounds"].mean(), **{"mean_" + col: stats[col].mean() for col in stats.columns if col.startswith("utt")}}
-            rows.append(info)
+            rows.append({**info, **params})
 
     return pd.DataFrame(rows).fillna(value=0)
                 

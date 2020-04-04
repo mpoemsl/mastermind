@@ -1,0 +1,17 @@
+,n_rounds,utt_none,utt_finished,numPins,numColors,speakerStrategy,listenerStrategy,utt_some,utt_many
+0,2,1.0,1,4,2,stochastic,greedyMax,0.0,0.0
+1,2,0.0,1,4,2,stochastic,greedyMax,1.0,0.0
+2,3,0.0,1,4,2,stochastic,greedyMax,2.0,0.0
+3,3,0.0,1,4,2,stochastic,greedyMax,1.0,1.0
+4,4,0.0,1,4,2,stochastic,greedyMax,3.0,0.0
+5,4,0.0,1,4,2,stochastic,greedyMax,2.0,1.0
+6,4,0.0,1,4,2,stochastic,greedyMax,2.0,1.0
+7,2,0.0,1,4,2,stochastic,greedyMax,0.0,1.0
+8,5,0.0,1,4,2,stochastic,greedyMax,4.0,0.0
+9,5,0.0,1,4,2,stochastic,greedyMax,3.0,1.0
+10,5,0.0,1,4,2,stochastic,greedyMax,3.0,1.0
+11,5,1.0,1,4,2,stochastic,greedyMax,3.0,0.0
+12,5,0.0,1,4,2,stochastic,greedyMax,3.0,1.0
+13,4,0.0,1,4,2,stochastic,greedyMax,2.0,1.0
+14,5,0.0,1,4,2,stochastic,greedyMax,3.0,1.0
+15,1,0.0,1,4,2,stochastic,greedyMax,0.0,0.0
