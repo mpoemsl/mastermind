@@ -163,7 +163,7 @@ var playUntilCorrect = function(state, speakfunc, listenfunc, listenBeliefs, pos
   
   if (arrayEquals(state, prediction)) {
     
-    display("Correct! Game finished.")
+    display("Correct! Game finished")
     
   } else {
     

@@ -8,16 +8,16 @@ import subprocess
 import argparse
 import os
 
-parser = argparse.ArgumentParser(description="Aggregates statistics about strategies in WebPPl Mastermind simulations.")
-
-parser.add_argument("script_fp", type=str, help="Path to a WebPPL Mastermind simulation script.")
-parser.add_argument("--num_pins", type=int, default=4, help="Number of pins in a Mastermind game state (>= 4).")
-parser.add_argument("--num_colors", type=int, default=2, help="Number of colors in a Mastermind game state (>= 2).")
-
-args = parser.parse_args()
-
 
 def main():
+
+    parser = argparse.ArgumentParser(description="Aggregates statistics about strategies in WebPPl Mastermind simulations.")
+
+    parser.add_argument("script_fp", type=str, help="Path to a WebPPL Mastermind simulation script.")
+    parser.add_argument("--num_pins", type=int, default=4, help="Number of pins in a Mastermind game state (>= 4).")
+    parser.add_argument("--num_colors", type=int, default=2, help="Number of colors in a Mastermind game state (>= 2).")
+
+    args = parser.parse_args()
 
     prefix = args.script_fp.split("/")[-1].split("_")[0]
 
@@ -86,14 +86,14 @@ def call(script_fp, params):
 
     history = parse_log(output)
 
-    return pd.DataFrame(history)
+    return history
 
 
 def parse_log(log):
     """ Parses a Mastermind log into a history of rounds. """
 
     lines = log.split("\n")
-    history = []
+    rounds = []
     
     for ix in range(len(lines) // 3):
 
@@ -106,9 +106,9 @@ def parse_log(log):
             "utterance": lines[r_ix + 2].split()[2]
         }
 
-        history.append(round_info)
+        rounds.append(round_info)
 
-    return history
+    return pd.DataFrame(rounds)
 
 
 def condense_history(history):

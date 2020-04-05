@@ -128,7 +128,7 @@ var startPlaying = function(state, speakerStrategy, listenerStrategy) {
   
   var firstPossibleStates = allStates
   
-  playUntilCorrect(state, speakfunc, listenfunc, firstListenBeliefs, firstPossibleStates)
+  playUntilCorrect(state, speakfunc, listenfunc, firstListenBeliefs, firstPossibleStates, 1)
 }
 
 
@@ -136,8 +136,8 @@ var startPlaying = function(state, speakerStrategy, listenerStrategy) {
 var playUntilCorrect = function(state, speakfunc, listenfunc, listenBeliefs, possStates) {
 
   display("Listener has beliefs over " + listenBeliefs.support().length + " possible states")
-  
-  // listener makes prediction
+
+  // listener makes prediction according to beliefs and strategy
   var prediction = listenfunc(listenBeliefs)
   display("Listener predicts " + prediction)
   
