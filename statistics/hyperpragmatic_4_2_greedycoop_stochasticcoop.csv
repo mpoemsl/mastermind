@@ -1,0 +1,17 @@
+,n_rounds,utt_some,utt_Listener-Win,utt_many,numPins,numColors,speakerStrategy,listenerStrategy,utt_none
+0,6,4.0,1,1.0,4,2,greedyCoop,stochasticCoop,0.0
+1,5,3.0,1,1.0,4,2,greedyCoop,stochasticCoop,0.0
+2,4,2.0,1,1.0,4,2,greedyCoop,stochasticCoop,0.0
+3,6,4.0,1,1.0,4,2,greedyCoop,stochasticCoop,0.0
+4,5,3.0,1,0.0,4,2,greedyCoop,stochasticCoop,1.0
+5,1,0.0,1,0.0,4,2,greedyCoop,stochasticCoop,0.0
+6,5,4.0,1,0.0,4,2,greedyCoop,stochasticCoop,0.0
+7,4,2.0,1,1.0,4,2,greedyCoop,stochasticCoop,0.0
+8,5,4.0,1,0.0,4,2,greedyCoop,stochasticCoop,0.0
+9,3,1.0,1,1.0,4,2,greedyCoop,stochasticCoop,0.0
+10,6,4.0,1,1.0,4,2,greedyCoop,stochasticCoop,0.0
+11,5,3.0,1,1.0,4,2,greedyCoop,stochasticCoop,0.0
+12,3,1.0,1,1.0,4,2,greedyCoop,stochasticCoop,0.0
+13,3,1.0,1,1.0,4,2,greedyCoop,stochasticCoop,0.0
+14,3,1.0,1,1.0,4,2,greedyCoop,stochasticCoop,0.0
+15,3,1.0,1,1.0,4,2,greedyCoop,stochasticCoop,0.0

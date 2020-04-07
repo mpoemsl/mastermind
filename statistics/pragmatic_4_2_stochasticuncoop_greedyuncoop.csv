@@ -1,0 +1,17 @@
+,n_rounds,utt_Listener-Win,utt_none,numPins,numColors,speakerStrategy,listenerStrategy,utt_some,utt_Speaker-Win,utt_many
+0,2,1.0,1.0,4,2,stochasticUncoop,greedyUncoop,0.0,0.0,0.0
+1,6,1.0,0.0,4,2,stochasticUncoop,greedyUncoop,5.0,0.0,0.0
+2,9,0.0,1.0,4,2,stochasticUncoop,greedyUncoop,7.0,1.0,0.0
+3,3,1.0,0.0,4,2,stochasticUncoop,greedyUncoop,2.0,0.0,0.0
+4,5,1.0,1.0,4,2,stochasticUncoop,greedyUncoop,3.0,0.0,0.0
+5,7,1.0,0.0,4,2,stochasticUncoop,greedyUncoop,5.0,0.0,1.0
+6,6,1.0,1.0,4,2,stochasticUncoop,greedyUncoop,4.0,0.0,0.0
+7,2,1.0,0.0,4,2,stochasticUncoop,greedyUncoop,1.0,0.0,0.0
+8,3,1.0,1.0,4,2,stochasticUncoop,greedyUncoop,1.0,0.0,0.0
+9,5,1.0,0.0,4,2,stochasticUncoop,greedyUncoop,4.0,0.0,0.0
+10,8,1.0,1.0,4,2,stochasticUncoop,greedyUncoop,6.0,0.0,0.0
+11,4,1.0,0.0,4,2,stochasticUncoop,greedyUncoop,3.0,0.0,0.0
+12,4,1.0,1.0,4,2,stochasticUncoop,greedyUncoop,2.0,0.0,0.0
+13,8,1.0,0.0,4,2,stochasticUncoop,greedyUncoop,7.0,0.0,0.0
+14,5,1.0,0.0,4,2,stochasticUncoop,greedyUncoop,3.0,0.0,1.0
+15,1,1.0,0.0,4,2,stochasticUncoop,greedyUncoop,0.0,0.0,0.0

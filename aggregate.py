@@ -36,8 +36,8 @@ def run_all_strategies(script_fp, num_pins, num_colors, prefix):
 
     rows = []
 
-    for speaker_strategy in ["stochastic", "greedyMin", "greedyMax"]:
-        for listener_strategy in ["stochastic", "greedyMin", "greedyMax"]:
+    for speaker_strategy in ["stochasticCoop", "stochasticUncoop", "greedyCoop", "greedyUncoop"]:
+        for listener_strategy in ["stochasticCoop", "stochasticUncoop", "greedyCoop", "greedyUncoop"]:
 
             params = {
                 "numPins": num_pins,
@@ -46,8 +46,13 @@ def run_all_strategies(script_fp, num_pins, num_colors, prefix):
                 "listenerStrategy": listener_strategy
             }
 
-            stats = run_all_states(script_fp, params)
-            stats.to_csv("statistics/{}_{}_{}_{}_{}.csv".format(prefix, num_pins, num_colors, speaker_strategy, listener_strategy).lower())
+            filepath = "statistics/{}_{}_{}_{}_{}.csv".format(prefix, num_pins, num_colors, speaker_strategy, listener_strategy).lower()
+
+            if os.path.exists(filepath):
+                stats = pd.read_csv(filepath, index_col=0)
+            else:
+                stats = run_all_states(script_fp, params)
+                stats.to_csv(filepath)
             
             info = {"mean_rounds": stats["n_rounds"].mean(), **{"mean_" + col: stats[col].mean() for col in stats.columns if col.startswith("utt")}}
             rows.append({**info, **params})

@@ -46,10 +46,13 @@ var argMax = function(dist) {
   return objs[_.indexOf(probs, _.max(probs))]
 }
 
-var argMin = function(dist) {
-  var [objs, probs] = getData(dist)
-  return objs[_.indexOf(probs, _.min(probs))]
+var invert = function(dist) {
+  var objs = dist.support()
+  var invProbs = map(function(obj){ 1.01 - Math.exp(dist.score(obj)) }, objs)
+  var normedInvProbs = map(function(prob){prob / sum(invProbs)}, invProbs)
+  return Categorical({ps: normedInvProbs, vs: objs})
 }
+
 var pinEquals = function(trueVal, predVal) {
   return trueVal === predVal
 }
@@ -129,9 +132,10 @@ var hyperPragmaticListener = function(utt, prediction,  listenPrior, possStates)
 
 // selection strategies
 var selectionStrategies = {
-  greedyMin: function(dist) { return argMin(dist) },
-  greedyMax: function(dist) { return argMax(dist) },
-  stochastic: function(dist) { return sample(dist) }
+  greedyCoop: function(dist) { return argMax(dist) },
+  greedyUncoop: function(dist) { return argMax(invert(dist)) },
+  stochasticCoop: function(dist) { return sample(dist) },
+  stochasticUncoop: function(dist) { return sample(invert(dist)) }
 }
 
 
@@ -147,13 +151,14 @@ var startPlaying = function(state, speakerStrategy, listenerStrategy) {
   })
   
   var firstPossibleStates = allStates
+  var firstRound = 1
   
-  playUntilCorrect(state, speakfunc, listenfunc, firstListenBeliefs, firstPossibleStates)
+  play(state, speakfunc, listenfunc, firstListenBeliefs, firstPossibleStates, firstRound)
 }
 
 
 // recursive game loop
-var playUntilCorrect = function(state, speakfunc, listenfunc, listenBeliefs, possStates) {
+var play = function(state, speakfunc, listenfunc, listenBeliefs, possStates, round) {
 
   display("Listener has beliefs over " + listenBeliefs.support().length + " possible States.")
   
@@ -161,9 +166,13 @@ var playUntilCorrect = function(state, speakfunc, listenfunc, listenBeliefs, pos
   var prediction = listenfunc(listenBeliefs)
   display("Listener predicts " + prediction)
   
-  if (arrayEquals(state, prediction)) {
+  if (round > 8) {
+
+    display("Incorrect! Game-Over, Speaker-Win")
+
+  } else if (arrayEquals(state, prediction)) {
     
-    display("Correct! Game finished")
+    display("Correct! Game-Over, Listener-Win")
     
   } else {
     
@@ -179,7 +188,7 @@ var playUntilCorrect = function(state, speakfunc, listenfunc, listenBeliefs, pos
     var listenPosterior = hyperPragmaticListener(utterance, prediction, listenPrior, newPossStates)
     var newListenBeliefs = listenPosterior
     
-    playUntilCorrect(state, speakfunc, listenfunc, newListenBeliefs, newPossStates)
+    play(state, speakfunc, listenfunc, newListenBeliefs, newPossStates, round + 1)
   }
 }
 
