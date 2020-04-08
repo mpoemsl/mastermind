@@ -49,6 +49,7 @@ def run_all_strategies(script_fp, num_pins, num_colors, prefix):
             filepath = "statistics/{}_{}_{}_{}_{}.csv".format(prefix, num_pins, num_colors, speaker_strategy, listener_strategy).lower()
 
             if os.path.exists(filepath):
+                print("{} exists, using existing statistics ...".format(filepath))
                 stats = pd.read_csv(filepath, index_col=0)
             else:
                 stats = run_all_states(script_fp, params)

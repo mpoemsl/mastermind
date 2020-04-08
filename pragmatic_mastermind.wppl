@@ -13,7 +13,7 @@ var trueState = map(function(c){ return _.toNumber(c) }, remove("s", argv["trueS
 
 // states generator
 var genStates = function(numColors, numPins){
-  
+
   var states = Infer({model: function(){
     var genDist = repeat(numPins, function(){ uniformDraw(_.range(numColors)) })
     return genDist
@@ -101,9 +101,9 @@ var pragmaticSpeaker = function(state, prediction, possStates) {
 
 
 // pragmatic listener
-var pragmaticListener = function(utt, prediction, prior, possStates) {
+var pragmaticListener = function(utt, prediction, listenPrior, possStates) {
   return Infer({model: function(){
-    var state = sample(prior)
+    var state = sample(listenPrior)
     observe(pragmaticSpeaker(state, prediction, possStates), utt)
     return state
   }})
@@ -116,7 +116,7 @@ var selectionStrategies = {
   greedyUncoop: function(dist) { return argMax(invert(dist)) },
   stochasticCoop: function(dist) { return sample(dist) },
   stochasticUncoop: function(dist) { return sample(invert(dist)) }
-}
+} 
 
 
 // start game loop

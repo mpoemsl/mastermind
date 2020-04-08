@@ -114,7 +114,7 @@ var pragmaticListener = function(utt, prediction, listenPrior, possStates) {
 var hyperPragmaticSpeaker = function(state, prediction, listenPrior, possStates){
   return Infer({model: function(){
     var utt = sample(pragmaticSpeaker(state, prediction, possStates))
-    factor(pragmaticListener(utt,prediction, listenPrior, possStates).score(state))
+    factor(pragmaticListener(utt, prediction, listenPrior, possStates).score(state))
     return utt
   }})
 }
@@ -124,7 +124,7 @@ var hyperPragmaticSpeaker = function(state, prediction, listenPrior, possStates)
 var hyperPragmaticListener = function(utt, prediction,  listenPrior, possStates){
   return Infer({model: function(){
     var state = sample(pragmaticListener(utt, prediction, listenPrior, possStates))
-    observe(pragmaticSpeaker(state, prediction, possStates), utt)
+    observe(hyperPragmaticSpeaker(state, prediction, listenPrior, possStates), utt)
     return state
   }})
 }
