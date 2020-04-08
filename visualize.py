@@ -68,7 +68,7 @@ def make_heatmaps():
 
         stats = pd.read_csv("{}_strategy_stats.csv".format(kind), index_col=0)
 
-        for value, vmin, vmax in zip(["mean_rounds", "mean_utt_Listener-Win", "mean_utt_many"], [3.0, 0.8, 0.0], [6.0, 1.0, 1.0]):
+        for value, vmin, vmax in zip(["mean_rounds", "mean_utt_many"], [3.0, 0.0], [6.0, 1.0]):
 
             matrix = condense_strategies(stats, value)
             
