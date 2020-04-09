@@ -3,16 +3,14 @@ Meta-Analysis of a Pragmatic Mastermind Simulation in WebPPL.
 
 A Course Project for "Computational Pragmatics" in SS 2020 at Osnabrück University by mpoemsl and rakrueger.
 
-The underlying models are loosely based on: Michael C. Frank and Noah D. Goodman. Predicting pragmatic reasoning in language games.
-*Science*, 336(6084):998, 2012.
+The underlying models are loosely based on:  
+Michael C. Frank and Noah D. Goodman. Predicting pragmatic reasoning in language games. *Science*, 336(6084):998, 2012.
 
 
 ## Overview
 
-### Mastermind
 There are two Mastermind simulation scripts in this project, `pragmatic_mastermind.wppl` and `hyperpragmatic_mastermind.wppl`. You can learn more about the distinction between the two in the project slides `mastermind_presentation.pdf`. 
 
-### Meta-Analysis
 There are also two meta-analysis scripts in this project, `aggregate.py` and `visualize.py`. `aggregate.py` runs multiple simulations for all possible true states with different parameters, stores the protocols of the runs in `protocols/` and a summary in a file with the suffix `_strategy_stats.csv`. `visualize.py` generates plots from the aggregated statistics and stores them in `plots/`.
 
 
