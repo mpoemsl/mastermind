@@ -46,7 +46,7 @@ def run_all_strategies(script_fp, num_pins, num_colors, prefix):
                 "listenerStrategy": listener_strategy
             }
 
-            filepath = "statistics/{}_{}_{}_{}_{}.csv".format(prefix, num_pins, num_colors, speaker_strategy, listener_strategy).lower()
+            filepath = "protocols/{}_{}_{}_{}_{}.csv".format(prefix, num_pins, num_colors, speaker_strategy, listener_strategy).lower()
 
             if os.path.exists(filepath):
                 print("{} exists, using existing statistics ...".format(filepath))

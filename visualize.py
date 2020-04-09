@@ -1,4 +1,4 @@
-from tqdm import tqdm
+""" Script to visualize aggregated statistics from a WebPPL Mastermind simulations. """
 
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
@@ -17,6 +17,7 @@ def main():
 
 
 def make_barplots():
+    """ Makes nested barplots about speaker beliefs. """
 
     colors = {
         "greedyUncoop": "blue",
@@ -61,6 +62,7 @@ def make_barplots():
 
 
 def make_heatmaps():
+    """ Makes heatmaps about mean number of rounds and mean frequency of utterance "many". """
 
     for kind in ["pragmatic", "hyperpragmatic"]:
 
@@ -70,7 +72,7 @@ def make_heatmaps():
 
         for value, vmin, vmax in zip(["mean_rounds", "mean_utt_many"], [3.0, 0.0], [6.0, 1.0]):
 
-            matrix = condense_strategies(stats, value)
+            matrix = pivot_strategies(stats, value)
             
             ax = sns.heatmap(matrix, cmap="inferno", vmin=vmin, vmax=vmax)
 
@@ -85,6 +87,7 @@ def make_heatmaps():
 
 
 def titlelize(text):
+    """ Returns a title-cased and cleaned version of a variable name. """
 
     text = " ".join(text.split("_"))
     text = " ".join([capfirst(word) for word in text.split() if word != "utt"])
@@ -93,6 +96,7 @@ def titlelize(text):
 
 
 def capfirst(word):
+    """ Capitalizes the first letter of a word. """
 
     chars = list(word)
     chars[0] = chars[0].upper()
@@ -100,7 +104,8 @@ def capfirst(word):
     return "".join(chars)
 
 
-def condense_strategies(df, vcol):
+def pivot_strategies(df, vcol):
+    """ Returns a pivoted table of column vcol with regards to speaker and listener strategies. """
 
     strategies = ["greedyUncoop", "stochasticUncoop", "stochasticCoop", "greedyCoop"]
 
