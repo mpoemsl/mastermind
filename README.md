@@ -1,10 +1,10 @@
 # mastermind
 Meta-Analysis of a Pragmatic Mastermind Simulation in WebPPL.
 
-A Course Project for "Computational Pragmatics" in SS 2020 at Osnabrück University by mpoemsl and rakrueger.
+Project for the course "Computational Pragmatics" in WS 2019/20 at Osnabrück University by mpoemsl and rakrueger.
 
 The underlying models are loosely based on:  
-Michael C. Frank and Noah D. Goodman. Predicting pragmatic reasoning in language games. *Science*, 336(6084):998, 2012.
+[Michael C. Frank and Noah D. Goodman. Predicting pragmatic reasoning in language games. *Science*, 336(6084):998, 2012.](http://langcog.stanford.edu/papers/FG-science2012full.pdf)
 
 
 ## Overview
